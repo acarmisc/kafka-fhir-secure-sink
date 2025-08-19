@@ -226,64 +226,15 @@ kafka-fhir-secure-sink/
 └── README.md                              # This file
 ```
 
-## CI/CD and GitHub Packages
+## Build and Package
 
-This project includes automated CI/CD pipelines using GitHub Actions:
-
-### Continuous Integration
-- ✅ **Validation Pipeline** (`ci.yml`): Runs on all pushes and PRs
-  - Maven validation and compilation
-  - Unit tests execution
-  - Build verification
-
-### Build and Package Pipeline
-- 🚀 **Build Pipeline** (`build-and-package.yml`): Automated builds and releases
-  - Builds JAR with dependencies
-  - Uploads artifacts for easy download
-  - Publishes to GitHub Packages on tagged releases
-  - Creates GitHub releases with JAR attachments
-
-### Using Pre-built Packages
-
-#### Download from GitHub Releases
+### Build from Source
 ```bash
-# Download the latest release
-# Replace 'username' with the actual GitHub username/organization
-curl -L -O https://github.com/username/kafka-fhir-secure-sink/releases/latest/download/kafka-fhir-secure-sink-1.0.0-jar-with-dependencies.jar
+mvn clean package
 ```
 
-#### Use with Maven (GitHub Packages)
-Add to your `pom.xml`:
-```xml
-<repositories>
-  <repository>
-    <id>github</id>
-    <url>https://maven.pkg.github.com/username/kafka-fhir-secure-sink</url>
-  </repository>
-</repositories>
-
-<dependencies>
-  <dependency>
-    <groupId>com.healthcare.kafka</groupId>
-    <artifactId>kafka-fhir-secure-sink</artifactId>
-    <version>1.0.0</version>
-  </dependency>
-</dependencies>
-```
-
-#### Create Tagged Release
-To trigger a new package release:
-```bash
-# Create and push a version tag
-git tag v1.0.1
-git push origin v1.0.1
-
-# This will automatically:
-# - Build the JAR with dependencies
-# - Publish to GitHub Packages
-# - Create a GitHub Release
-# - Attach JAR files to the release
-```
+The JAR with dependencies will be available at:
+`target/kafka-fhir-secure-sink-1.0.0-SNAPSHOT-jar-with-dependencies.jar`
 
 ## Contributing
 
@@ -295,9 +246,9 @@ git push origin v1.0.1
 6. Open a Pull Request
 
 ### Development Workflow
-- All pushes trigger the CI pipeline
-- PRs must pass all tests before merging
-- Tagged versions automatically create releases
+- Write tests for your changes
+- Ensure all tests pass before submitting PRs
+- Follow conventional commit messages
 
 ## License
 

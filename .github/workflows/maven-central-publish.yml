@@ -1,0 +1,107 @@
+name: Publish to Maven Central
+
+on:
+  push:
+    tags:
+      - 'v*'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (optional, will use POM version if not specified)'
+        required: false
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Set up Maven Central Repository
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        server-id: central
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_CENTRAL_TOKEN
+        gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+        gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+    - name: Update version if specified
+      if: github.event.inputs.version != ''
+      run: |
+        mvn versions:set -DnewVersion=${{ github.event.inputs.version }}
+        mvn versions:commit
+
+    - name: Extract version from tag
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/v}
+        echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+        mvn versions:set -DnewVersion=$VERSION
+        mvn versions:commit
+
+    - name: Run tests
+      run: mvn clean test
+
+    - name: Verify build
+      run: mvn clean verify -DskipTests
+
+    - name: Publish to Maven Central
+      env:
+        MAVEN_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+        MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+      run: |
+        mvn clean deploy -DskipTests \
+          -Dmaven.javadoc.skip=false \
+          -Dmaven.source.skip=false
+
+    - name: Create GitHub Release (if triggered by tag)
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          target/*.jar
+        body: |
+          ## Kafka FHIR Secure Sink Connector ${{ env.RELEASE_VERSION }}
+          
+          This release has been automatically published to Maven Central.
+          
+          ### Maven Dependency
+          ```xml
+          <dependency>
+              <groupId>io.github.acarmisc</groupId>
+              <artifactId>kafka-fhir-secure-sink</artifactId>
+              <version>${{ env.RELEASE_VERSION }}</version>
+          </dependency>
+          ```
+          
+          ### Changes
+          - See commit history for detailed changes
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

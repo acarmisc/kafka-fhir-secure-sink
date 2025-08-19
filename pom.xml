@@ -7,9 +7,9 @@
 >
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.healthcare.kafka</groupId>
+    <groupId>io.github.acarmisc</groupId>
     <artifactId>kafka-fhir-secure-sink</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.5</version>
     <packaging>jar</packaging>
 
     <name>Kafka FHIR Secure Sink Connector</name>
@@ -17,14 +17,29 @@
     >Kafka Connect sink connector for Azure Health Data Services with OAuth2 authentication</description>
     <url>https://github.com/acarmisc/kafka-fhir-secure-sink</url>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url
-            >https://maven.pkg.github.com/acarmisc/kafka-fhir-secure-sink</url>
-        </repository>
-    </distributionManagement>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>acarmisc</id>
+            <name>Andrea Carmisciano</name>
+            <url>https://github.com/acarmisc</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection
+        >scm:git:git://github.com/acarmisc/kafka-fhir-secure-sink.git</connection>
+        <developerConnection
+        >scm:git:ssh://github.com:acarmisc/kafka-fhir-secure-sink.git</developerConnection>
+        <url>https://github.com/acarmisc/kafka-fhir-secure-sink/tree/main</url>
+    </scm>
+
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -204,6 +219,78 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
+
+            <!-- Maven Central Publishing Plugins -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.4.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <tokenAuth>true</tokenAuth>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url
+            >https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url
+            >https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>
