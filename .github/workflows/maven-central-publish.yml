@@ -68,7 +68,7 @@ jobs:
       run: mvn clean test
 
     - name: Verify build
-      run: mvn clean verify -DskipTests
+      run: mvn clean verify -DskipTests -Dsign=false
 
     - name: Publish to Maven Central
       env:
@@ -78,7 +78,9 @@ jobs:
       run: |
         mvn clean deploy -DskipTests \
           -Dmaven.javadoc.skip=false \
-          -Dmaven.source.skip=false
+          -Dmaven.source.skip=false \
+          -Dsign=true \
+          -Psign-artifacts
 
     - name: Create GitHub Release (if triggered by tag)
       if: startsWith(github.ref, 'refs/tags/v')

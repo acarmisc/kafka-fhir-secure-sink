@@ -73,7 +73,7 @@ jobs:
       run: mvn clean compile
 
     - name: Package project
-      run: mvn clean package -DskipTests
+      run: mvn clean package -DskipTests -Dsign=false
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
@@ -137,7 +137,7 @@ jobs:
         timeout 60 bash -c 'until nc -z localhost 9092; do sleep 1; done'
 
     - name: Run integration tests
-      run: mvn clean verify -Pit
+      run: mvn clean verify -Pit -Dsign=false
       env:
         KAFKA_BOOTSTRAP_SERVERS: localhost:9092
 

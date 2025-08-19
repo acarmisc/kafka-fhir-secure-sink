@@ -68,6 +68,8 @@ services:
       CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.storage.StringConverter
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components,/opt/connectors"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
+      # Enable debug logging for FHIR components
+      CONNECT_LOG4J_LOGGER_COM_HEALTHCARE_KAFKA_CONNECT_FHIR: DEBUG
       # Azure Health Data Services OAuth2 Configuration
       AZURE_TENANT_ID: ${AZURE_TENANT_ID:-}
       AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:-}
