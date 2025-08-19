@@ -1,0 +1,22 @@
+{
+  "name": "azure-fhir-secure-sink-connector",
+  "config": {
+    "connector.class": "com.healthcare.kafka.connect.fhir.FhirSecureSinkConnector",
+    "tasks.max": "1",
+    "topics": "fhir-resources",
+    "fhir.server.url": "REPLACE_WITH_AZURE_FHIR_URL",
+    "azure.tenant.id": "REPLACE_WITH_AZURE_TENANT_ID",
+    "azure.client.id": "REPLACE_WITH_AZURE_CLIENT_ID",
+    "azure.client.secret": "REPLACE_WITH_AZURE_CLIENT_SECRET",
+    "azure.scope": "https://azurehealthcareapis.com/.default",
+    "azure.resource": "REPLACE_WITH_AZURE_RESOURCE",
+    "http.timeout.ms": "30000",
+    "retry.attempts": "3",
+    "retry.backoff.ms": "1000",
+    "fhir.validation.enabled": "false",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter.schemas.enable": "false"
+  }
+}
