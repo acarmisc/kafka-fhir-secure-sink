@@ -75,6 +75,7 @@ services:
       AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:-}
       AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET:-}
       AZURE_FHIR_URL: ${AZURE_FHIR_URL:-}
+      AZURE_RESOURCE: ${AZURE_RESOURCE:-}
     volumes:
       - ./connectors:/opt/connectors
       - ./config:/opt/config
@@ -150,6 +151,7 @@ services:
       AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:-}
       AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET:-}
       AZURE_FHIR_URL: ${AZURE_FHIR_URL:-}
+      AZURE_RESOURCE: ${AZURE_RESOURCE:-}
     volumes:
       - ./fhir-samples:/app/samples:ro
     command: ["python", "producer.py"]

@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Kafka Connect sink connector for Azure Health Data Services FHIR API.
+ * Provides secure OAuth2 authentication and reliable FHIR resource submission.
+ */
 public class FhirSecureSinkConnector extends SinkConnector {
 
     private static final Logger log = LoggerFactory.getLogger(FhirSecureSinkConnector.class);
