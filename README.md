@@ -134,16 +134,16 @@ graph LR
     C -->|OAuth2 Authentication| D[Azure Entra ID]
     D -->|JWT Access Token| C
     C -->|HTTPS + Bearer Token| E[Azure Health Data Services<br/>FHIR Service]
-    
+
     subgraph "Kafka Connect Cluster"
         C
     end
-    
+
     subgraph "Azure Cloud"
         D
         E
     end
-    
+
     style C fill:#e1f5fe
     style E fill:#f3e5f5
     style D fill:#fff3e0
@@ -166,7 +166,7 @@ Send FHIR R4 resources as JSON strings to your Kafka topic:
   "active": true,
   "name": [
     {
-      "use": "official", 
+      "use": "official",
       "family": "Smith",
       "given": ["Jane"]
     }
@@ -197,7 +197,7 @@ Send FHIR R4 resources as JSON strings to your Kafka topic:
 
 Key metrics to monitor:
 - Connector task status and consumer lag
-- Authentication success/failure rates  
+- Authentication success/failure rates
 - HTTP response codes from FHIR service (200, 201, 401, 403, 500)
 - Message processing throughput and latency
 - Error rates and retry attempts
@@ -236,7 +236,7 @@ This project includes automated CI/CD pipelines using GitHub Actions:
   - Maven validation and compilation
   - Unit tests execution
   - Build verification
-  
+
 ### Build and Package Pipeline
 - 🚀 **Build Pipeline** (`build-and-package.yml`): Automated builds and releases
   - Builds JAR with dependencies
@@ -249,7 +249,7 @@ This project includes automated CI/CD pipelines using GitHub Actions:
 #### Download from GitHub Releases
 ```bash
 # Download the latest release
-curl -L -O https://github.com/andreapetrozzi/kafka-fhir-secure-sink/releases/latest/download/kafka-fhir-secure-sink-1.0.0-jar-with-dependencies.jar
+curl -L -O https://github.com/acarmisc/kafka-fhir-secure-sink/releases/latest/download/kafka-fhir-secure-sink-1.0.0-jar-with-dependencies.jar
 ```
 
 #### Use with Maven (GitHub Packages)
@@ -258,7 +258,7 @@ Add to your `pom.xml`:
 <repositories>
   <repository>
     <id>github</id>
-    <url>https://maven.pkg.github.com/andreapetrozzi/kafka-fhir-secure-sink</url>
+    <url>https://maven.pkg.github.com/acarmisc/kafka-fhir-secure-sink</url>
   </repository>
 </repositories>
 

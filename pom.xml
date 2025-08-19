@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.healthcare.kafka</groupId>
@@ -11,14 +13,16 @@
     <packaging>jar</packaging>
 
     <name>Kafka FHIR Secure Sink Connector</name>
-    <description>Kafka Connect sink connector for Azure Health Data Services with OAuth2 authentication</description>
-    <url>https://github.com/andreapetrozzi/kafka-fhir-secure-sink</url>
+    <description
+    >Kafka Connect sink connector for Azure Health Data Services with OAuth2 authentication</description>
+    <url>https://github.com/acarmisc/kafka-fhir-secure-sink</url>
 
     <distributionManagement>
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/andreapetrozzi/kafka-fhir-secure-sink</url>
+            <url
+            >https://maven.pkg.github.com/acarmisc/kafka-fhir-secure-sink</url>
         </repository>
     </distributionManagement>
 
@@ -26,8 +30,9 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
-        
+        <maven.build.timestamp.format
+        >yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+
         <kafka.version>3.6.0</kafka.version>
         <hapi.fhir.version>6.8.0</hapi.fhir.version>
         <azure.identity.version>1.11.0</azure.identity.version>
@@ -120,7 +125,7 @@
 
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
-        
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -139,13 +144,18 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries
+                            >true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries
+                            >true</addDefaultSpecificationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Implementation-Title>${project.name}</Implementation-Title>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                            <Implementation-Vendor>Healthcare Kafka Connect</Implementation-Vendor>
+                            <Implementation-Title
+                            >${project.name}</Implementation-Title>
+                            <Implementation-Version
+                            >${project.version}</Implementation-Version>
+                            <Implementation-Vendor
+                            >Healthcare Kafka Connect</Implementation-Vendor>
                             <Build-Time>${maven.build.timestamp}</Build-Time>
                         </manifestEntries>
                     </archive>
@@ -162,13 +172,18 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            <addDefaultImplementationEntries
+                            >true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries
+                            >true</addDefaultSpecificationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Implementation-Title>${project.name}</Implementation-Title>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                            <Implementation-Vendor>Healthcare Kafka Connect</Implementation-Vendor>
+                            <Implementation-Title
+                            >${project.name}</Implementation-Title>
+                            <Implementation-Version
+                            >${project.version}</Implementation-Version>
+                            <Implementation-Vendor
+                            >Healthcare Kafka Connect</Implementation-Vendor>
                             <Build-Time>${maven.build.timestamp}</Build-Time>
                         </manifestEntries>
                     </archive>
