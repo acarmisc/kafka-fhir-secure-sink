@@ -44,7 +44,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-        server-id: ossrh
+        server-id: central
         server-username: MAVEN_USERNAME
         server-password: MAVEN_CENTRAL_TOKEN
         gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
@@ -69,6 +69,43 @@ jobs:
 
     - name: Verify build
       run: mvn clean verify -DskipTests -Dsign=false
+      
+    - name: Check required secrets
+      run: |
+        echo "Checking required secrets..."
+        if [ -z "${{ secrets.MAVEN_CENTRAL_USERNAME }}" ]; then
+          echo "❌ MAVEN_CENTRAL_USERNAME secret is missing"
+          exit 1
+        else
+          echo "✅ MAVEN_CENTRAL_USERNAME is set"
+        fi
+        
+        if [ -z "${{ secrets.MAVEN_CENTRAL_TOKEN }}" ]; then
+          echo "❌ MAVEN_CENTRAL_TOKEN secret is missing"
+          exit 1
+        else
+          echo "✅ MAVEN_CENTRAL_TOKEN is set"
+        fi
+        
+        if [ -z "${{ secrets.MAVEN_GPG_PRIVATE_KEY }}" ]; then
+          echo "❌ MAVEN_GPG_PRIVATE_KEY secret is missing"
+          exit 1
+        else
+          echo "✅ MAVEN_GPG_PRIVATE_KEY is set"
+        fi
+        
+        if [ -z "${{ secrets.MAVEN_GPG_PASSPHRASE }}" ]; then
+          echo "⚠️ MAVEN_GPG_PASSPHRASE secret is missing (may be empty)"
+        else
+          echo "✅ MAVEN_GPG_PASSPHRASE is set"
+        fi
+
+    - name: Check GPG setup
+      run: |
+        echo "Checking GPG setup..."
+        gpg --version
+        echo "Checking imported keys:"
+        gpg --list-secret-keys --keyid-format=long || echo "No secret keys found"
 
     - name: Publish to Maven Central
       env:
@@ -76,7 +113,7 @@ jobs:
         MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
       run: |
-        mvn clean deploy -DskipTests \
+        mvn clean central:publish -DskipTests \
           -Dmaven.javadoc.skip=false \
           -Dmaven.source.skip=false \
           -Dsign=true \
