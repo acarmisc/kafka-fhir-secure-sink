@@ -109,7 +109,7 @@ A complete test environment with sample data and Docker Compose stack is provide
 - ✅ Azure OAuth2 connectivity testing scripts
 - ✅ End-to-end integration testing
 
-**👉 See [sample/README.md](sample/README.md) for detailed testing instructions**
+**👉 See sample/README.md for detailed testing instructions**
 
 ## Configuration Reference
 
@@ -215,9 +215,8 @@ kafka-fhir-secure-sink/
 │       ├── config/FhirSecureSinkConnectorConfig.java  # Configuration
 │       └── sink/FhirClient.java             # FHIR HTTP client
 ├── sample/                                  # Complete test environment
-│   ├── README.md                           # Testing instructions
+│   ├── README.md                           # Testing instructions  
 │   ├── docker-compose.yml                 # Full Kafka + Connect stack
-│   ├── .env.example                       # Environment template
 │   ├── config/                            # Connector configurations
 │   ├── connectors/                        # Built connector JAR
 │   ├── fhir-producer/                     # Sample data producer
@@ -249,7 +248,8 @@ This project includes automated CI/CD pipelines using GitHub Actions:
 #### Download from GitHub Releases
 ```bash
 # Download the latest release
-curl -L -O https://github.com/acarmisc/kafka-fhir-secure-sink/releases/latest/download/kafka-fhir-secure-sink-1.0.0-jar-with-dependencies.jar
+# Replace 'username' with the actual GitHub username/organization
+curl -L -O https://github.com/username/kafka-fhir-secure-sink/releases/latest/download/kafka-fhir-secure-sink-1.0.0-jar-with-dependencies.jar
 ```
 
 #### Use with Maven (GitHub Packages)
@@ -258,7 +258,7 @@ Add to your `pom.xml`:
 <repositories>
   <repository>
     <id>github</id>
-    <url>https://maven.pkg.github.com/acarmisc/kafka-fhir-secure-sink</url>
+    <url>https://maven.pkg.github.com/username/kafka-fhir-secure-sink</url>
   </repository>
 </repositories>
 
@@ -306,6 +306,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 For issues and questions:
-- 🐛 [Report bugs](https://github.com/your-org/kafka-fhir-secure-sink/issues)
-- 💬 [Ask questions](https://github.com/your-org/kafka-fhir-secure-sink/discussions)
-- 📖 [Read documentation](https://github.com/your-org/kafka-fhir-secure-sink/wiki)
+- 🐛 Report bugs via GitHub Issues
+- 💬 Ask questions via GitHub Discussions  
+- 📖 Read documentation in the project wiki
