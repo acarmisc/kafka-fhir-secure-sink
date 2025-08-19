@@ -113,7 +113,7 @@ jobs:
         MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
       run: |
-        mvn clean central:publish -DskipTests \
+        mvn clean deploy -DskipTests \
           -Dmaven.javadoc.skip=false \
           -Dmaven.source.skip=false \
           -Dsign=true \
