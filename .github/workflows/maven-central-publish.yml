@@ -39,16 +39,11 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
-    - name: Set up Maven Central Repository
-      uses: actions/setup-java@v4
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@v6
       with:
-        java-version: '11'
-        distribution: 'temurin'
-        server-id: central
-        server-username: MAVEN_USERNAME
-        server-password: MAVEN_CENTRAL_TOKEN
-        gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-        gpg-passphrase: MAVEN_GPG_PASSPHRASE
+        gpg_private_key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
     - name: Update version if specified
       if: github.event.inputs.version != ''
@@ -73,13 +68,6 @@ jobs:
     - name: Check required secrets
       run: |
         echo "Checking required secrets..."
-        if [ -z "${{ secrets.MAVEN_CENTRAL_USERNAME }}" ]; then
-          echo "❌ MAVEN_CENTRAL_USERNAME secret is missing"
-          exit 1
-        else
-          echo "✅ MAVEN_CENTRAL_USERNAME is set"
-        fi
-        
         if [ -z "${{ secrets.MAVEN_CENTRAL_TOKEN }}" ]; then
           echo "❌ MAVEN_CENTRAL_TOKEN secret is missing"
           exit 1
@@ -109,8 +97,7 @@ jobs:
 
     - name: Publish to Maven Central
       env:
-        MAVEN_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-        MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+        CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
       run: |
         mvn clean deploy -DskipTests \

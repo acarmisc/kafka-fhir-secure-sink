@@ -9,7 +9,7 @@
 
     <groupId>io.github.acarmisc</groupId>
     <artifactId>kafka-fhir-secure-sink</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <packaging>jar</packaging>
 
     <name>Kafka FHIR Secure Sink Connector</name>
@@ -39,6 +39,13 @@
         >scm:git:ssh://github.com:acarmisc/kafka-fhir-secure-sink.git</developerConnection>
         <url>https://github.com/acarmisc/kafka-fhir-secure-sink/tree/main</url>
     </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <url>https://central.sonatype.com/api/v1/publisher/deployments</url>
+        </repository>
+    </distributionManagement>
 
 
     <properties>

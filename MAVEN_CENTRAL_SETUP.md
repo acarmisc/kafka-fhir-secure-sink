@@ -48,7 +48,6 @@ In your GitHub repository, go to Settings → Secrets and variables → Actions,
 
 | Secret Name | Description | Example/Notes |
 |-------------|-------------|---------------|
-| `MAVEN_CENTRAL_USERNAME` | Your Sonatype username | Your Sonatype account username |
 | `MAVEN_CENTRAL_TOKEN` | Your Sonatype token | Generate from [https://central.sonatype.com/account](https://central.sonatype.com/account) |
 | `MAVEN_GPG_PRIVATE_KEY` | Your GPG private key | Content of `private-key.asc` (entire file including headers) |
 | `MAVEN_GPG_PASSPHRASE` | Your GPG key passphrase | The passphrase you used when creating the GPG key |
@@ -58,7 +57,7 @@ In your GitHub repository, go to Settings → Secrets and variables → Actions,
 1. Log in to [https://central.sonatype.com/](https://central.sonatype.com/)
 2. Go to your account settings
 3. Click on "Generate User Token"
-4. Copy the username and password - use these as `MAVEN_CENTRAL_USERNAME` and `MAVEN_CENTRAL_TOKEN`
+4. Copy the generated token and use it as `MAVEN_CENTRAL_TOKEN`
 
 ## Step 4: Publishing Process
 
