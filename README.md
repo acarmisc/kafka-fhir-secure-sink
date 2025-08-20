@@ -31,21 +31,40 @@ All Azure Health Data Services FHIR APIs **require** OAuth2 authentication with:
 
 ## Quick Start
 
+### Download
+
+The recommended way to get the connector is to download the latest pre-built JAR with all dependencies from the [**GitHub Releases**](https://github.com/acarmisc/kafka-fhir-secure-sink/releases) page.
+
+Each release includes the following files:
+- `kafka-fhir-secure-sink-x.y.z-jar-with-dependencies.jar`: The connector JAR file
+- `Source code (zip)`
+- `Source code (tar.gz)`
+
+Download the `kafka-fhir-secure-sink-x.y.z-jar-with-dependencies.jar` file.
+
 ### Prerequisites
 
 - Java 17+
-- Maven 3.6+
 - Azure Health Data Services FHIR service
 - Azure Entra ID application registration with appropriate FHIR permissions
 
-### Build
+### Build from Source (Optional)
+
+If you want to build the connector from source, you will need:
+- Java 17+
+- Maven 3.6+
 
 ```bash
+# Clone the repository
+git clone https://github.com/acarmisc/kafka-fhir-secure-sink.git
+cd kafka-fhir-secure-sink
+
+# Build the JAR
 mvn clean package
 ```
 
 The built JAR with dependencies will be created at:
-`target/kafka-fhir-secure-sink-1.0.0-SNAPSHOT-jar-with-dependencies.jar`
+`target/kafka-fhir-secure-sink-x.y.z-jar-with-dependencies.jar`
 
 ### Azure Setup
 
