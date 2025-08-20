@@ -31,6 +31,9 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+        server-id: central
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_CENTRAL_TOKEN
 
     - name: Cache Maven dependencies
       uses: actions/cache@v4
@@ -68,6 +71,13 @@ jobs:
     - name: Check required secrets
       run: |
         echo "Checking required secrets..."
+        if [ -z "${{ secrets.MAVEN_CENTRAL_USERNAME }}" ]; then
+          echo "❌ MAVEN_CENTRAL_USERNAME secret is missing"
+          exit 1
+        else
+          echo "✅ MAVEN_CENTRAL_USERNAME is set"
+        fi
+        
         if [ -z "${{ secrets.MAVEN_CENTRAL_TOKEN }}" ]; then
           echo "❌ MAVEN_CENTRAL_TOKEN secret is missing"
           exit 1
@@ -97,7 +107,8 @@ jobs:
 
     - name: Publish to Maven Central
       env:
-        CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+        MAVEN_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+        MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
         MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
       run: |
         mvn clean deploy -DskipTests \
