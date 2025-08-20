@@ -104,19 +104,26 @@ The built JAR with dependencies will be created at:
 
 ### Deploy
 
-1. Copy the built JAR to your Kafka Connect plugins directory:
-   ```bash
-   cp target/kafka-fhir-secure-sink-*-jar-with-dependencies.jar /path/to/kafka-connect/plugins/
-   ```
+1. **Download the JAR**:
+   - Get the latest `kafka-fhir-secure-sink-x.y.z-jar-with-dependencies.jar` from the [**GitHub Releases**](https://github.com/acarmisc/kafka-fhir-secure-sink/releases) page.
 
-2. Restart Kafka Connect workers
+2. **Install the Connector**:
+   - Copy the downloaded JAR file to the `plugin.path` directory of your Kafka Connect cluster. This directory is specified in your Kafka Connect worker configuration.
+   - For example, if your `plugin.path` is `/usr/share/java/kafka-connect-plugins`, you would copy the JAR there:
+     ```bash
+     cp kafka-fhir-secure-sink-1.0.11-jar-with-dependencies.jar /usr/share/java/kafka-connect-plugins/
+     ```
 
-3. Create the connector:
-   ```bash
-   curl -X POST http://your-kafka-connect:8083/connectors \
-     -H "Content-Type: application/json" \
-     -d @your-connector-config.json
-   ```
+3. **Restart Kafka Connect**:
+   - Restart your Kafka Connect workers to pick up the new connector.
+
+4. **Create the Connector**:
+   - Use the Kafka Connect REST API to create a new connector instance. You will need to provide a JSON configuration file. See the [Configuration](#configuration) section for details.
+     ```bash
+     curl -X POST http://your-kafka-connect:8083/connectors \
+       -H "Content-Type: application/json" \
+       -d @your-connector-config.json
+     ```
 
 ## Testing and Development
 

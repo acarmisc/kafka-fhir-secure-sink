@@ -9,7 +9,7 @@
 
     <groupId>io.github.acarmisc</groupId>
     <artifactId>kafka-fhir-secure-sink</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.11</version>
     <packaging>jar</packaging>
 
     <name>Kafka FHIR Secure Sink Connector</name>
