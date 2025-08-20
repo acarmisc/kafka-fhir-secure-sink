@@ -4,7 +4,19 @@
       "Bash(git add:*)",
       "Bash(git push:*)",
       "Bash(git stash:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(git tag:*)",
+      "Bash(gh workflow:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh release list:*)",
+      "Bash(gh release view:*)",
+      "Bash(kubectl describe:*)",
+      "Bash(curl:*)",
+      "Bash(jar:*)",
+      "Bash(mvn clean:*)",
+      "Bash(mvn dependency:unpack:*)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []

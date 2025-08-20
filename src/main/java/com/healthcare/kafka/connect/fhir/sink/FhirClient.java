@@ -1,11 +1,16 @@
 package com.healthcare.kafka.connect.fhir.sink;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.context.support.DefaultProfileValidationSupport;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.interceptor.BearerTokenAuthInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.BaseServerResponseException;
 import ca.uhn.fhir.rest.server.exceptions.UnprocessableEntityException;
+import ca.uhn.fhir.validation.FhirValidator;
+import ca.uhn.fhir.validation.ValidationResult;
+import org.hl7.fhir.common.hapi.validation.support.ValidationSupportChain;
+import org.hl7.fhir.common.hapi.validation.validator.FhirInstanceValidator;
 import com.healthcare.kafka.connect.fhir.auth.AzureOAuth2Client;
 import com.healthcare.kafka.connect.fhir.config.FhirSecureSinkConnectorConfig;
 import org.hl7.fhir.r4.model.Resource;
@@ -24,6 +29,7 @@ public class FhirClient {
     private final FhirContext fhirContext;
     private final IGenericClient client;
     private final IParser jsonParser;
+    private final FhirValidator validator;
 
     public FhirClient(FhirSecureSinkConnectorConfig config, AzureOAuth2Client authClient) {
         this.config = config;
@@ -36,12 +42,27 @@ public class FhirClient {
         
         this.client = fhirContext.newRestfulGenericClient(config.getFhirServerUrl());
         this.jsonParser = fhirContext.newJsonParser();
+        this.validator = createValidator();
         
         setupAuthentication();
         
         log.info("FHIR client initialized for endpoint: {}", config.getFhirServerUrl());
     }
 
+    private FhirValidator createValidator() {
+        // Create validator that doesn't use XSD schema validation
+        DefaultProfileValidationSupport validationSupport = new DefaultProfileValidationSupport(fhirContext);
+        ValidationSupportChain supportChain = new ValidationSupportChain(validationSupport);
+        
+        FhirInstanceValidator instanceValidator = new FhirInstanceValidator(supportChain);
+        
+        FhirValidator validator = fhirContext.newValidator();
+        validator.registerValidatorModule(instanceValidator);
+        
+        log.debug("FHIR validator created without XSD schema validation");
+        return validator;
+    }
+    
     private void setupAuthentication() {
         BearerTokenAuthInterceptor authInterceptor = new BearerTokenAuthInterceptor() {
             @Override
@@ -112,7 +133,10 @@ public class FhirClient {
             Resource resource = (Resource) jsonParser.parseResource(fhirResourceJson);
             
             if (config.isValidationEnabled()) {
-                fhirContext.newValidator().validateWithResult(resource);
+                ValidationResult result = validator.validateWithResult(resource);
+                if (!result.isSuccessful()) {
+                    log.warn("FHIR validation failed: {}", result.getMessages());
+                }
             }
             
             String expectedType = config.getFhirResourceType();
